@@ -2,7 +2,7 @@
 # Download the audios from raiplay audiobooks.
 # Catalog: https://www.raiplaysound.it/programmi/adaltavoce/audiolibri
 # Usage example:
-#   ./raiplaysound-dl.py https://www.raiplaysound.it/audiolibri/latortaincielo
+#   ./download_raiplaysound.py https://www.raiplaysound.it/audiolibri/latortaincielo
 import requests
 import re
 from urllib.parse import urljoin
@@ -34,7 +34,7 @@ def main(audiobook_url):
         url = card.get('downloadable_audio', card['audio'])['url']
         filename = filename_template.format(
             number=i,
-            title=card['title']
+            title=re.sub('[^A-z0-9. ]', '-', card['title'])
         )
         print(f"Downloading {filename}…")
         download_file(session, url, filename)
